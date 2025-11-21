@@ -27,7 +27,12 @@ jobs:
         run: npm run build
 
       - name: Run OpenAPI lint with vacuum
+        if: github.event_name == 'pull_request'
         uses: pb33f/vacuum-action@v2
         with:
           openapi_path: "bundle/specification.yaml"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Run Vacuum
+        if: github.event_name != 'pull_request'
+        run: npm run lint -- --pipeline-output

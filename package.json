@@ -1,0 +1,49 @@
+{
+  "$schema": "https://raw.githubusercontent.com/AmadeusITGroup/otter/refs/heads/feature/openapi-solution/packages/@ama-openapi/core/schemas/manifest.schema.json",
+  "name": "@test/sdk",
+  "preferUnplugged": true,
+  "version": "0.0.0-placeholder",
+  "description": "My Specification description",
+  "main": "bundle/specification.yaml",
+  "files": [
+    "bundle",
+    "models",
+    "ama-openapi.manifest.json",
+    "ama-openapi.manifest.yaml",
+    "ama-openapi.manifest.yml",
+    "openapi.manifest.json",
+    "openapi.manifest.yaml",
+    "openapi.manifest.yml",
+    "package.json"
+  ],
+  "readme": "README.md",
+  "scripts": {
+    "lint": "vacuum lint bundle/specification.yaml -d",
+    "lint:source": "vacuum lint models/**/*.yaml apis/**/*.yaml",
+    "build": "redocly bundle",
+    "retrieve-externals": "ama-openapi install",
+    "watch:retrieve-externals": "ama-openapi watch",
+    "postinstall": "ama-openapi install",
+    "dashboard": "vacuum dashboard bundle/specification.yaml"
+  },
+  "dependencies": {
+    "@ama-openapi/cli": "~0.0.0-placeholder.10"
+  },
+  "devDependencies": {
+    "@ama-openapi/redocly-plugin": "~0.0.0-placeholder.10",
+    "@quobix/vacuum": "^0.20.2",
+    "@redocly/cli": "~2.11.0"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./models/*": "./models/*",
+    "./bundle/*": "./bundle/*",
+    ".": {
+      "module": "./bundle/specification.yaml",
+      "default": "./bundle/specification.yaml"
+    }
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.17.0 || ^24.0.0"
+  }
+}

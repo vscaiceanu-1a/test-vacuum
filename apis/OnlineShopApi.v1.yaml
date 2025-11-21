@@ -1,0 +1,398 @@
+openapi: 3.0.0
+info:
+  title: Online Shop REST API
+  version: '1.0'
+  description: |-
+    RESTful API for an online shop application.
+    Provides endpoints for managing products, customers, and orders.
+  contact:
+    name: API Support
+    email: support@onlineshop.example.com
+servers:
+  - url: 'https://api.onlineshop.example.com/v1'
+    description: Production server
+  - url: 'https://staging-api.onlineshop.example.com/v1'
+    description: Staging server
+security:
+  - ApiKeyAuth: []
+paths:
+  '/products':
+    get:
+      summary: List all products
+      tags:
+        - Products
+      operationId: list-products
+      parameters:
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/minPrice'
+        - $ref: '#/components/parameters/maxPrice'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: |-
+        Retrieves a paginated list of products. 
+        Supports filtering by category and price range.
+  '/products/{productId}':
+    parameters:
+      - $ref: '#/components/parameters/productId'
+    get:
+      summary: Get product by ID
+      tags:
+        - Products
+      operationId: get-product-by-id
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: Retrieves detailed information about a specific product.
+  '/customers':
+    get:
+      summary: List all customers
+      tags:
+        - Customers
+      operationId: list-customers
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: Retrieves a paginated list of customers.
+    post:
+      summary: Create new customer
+      tags:
+        - Customers
+      operationId: create-customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '../models/Customer.v1.yaml'
+        required: true
+      responses:
+        '201':
+          $ref: '#/components/responses/CustomerResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: Creates a new customer profile.
+  '/customers/{customerId}':
+    parameters:
+      - $ref: '#/components/parameters/customerId'
+    get:
+      summary: Get customer by ID
+      tags:
+        - Customers
+      operationId: get-customer-by-id
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: Retrieves detailed information about a specific customer.
+  '/orders':
+    get:
+      summary: List all orders
+      tags:
+        - Orders
+      operationId: list-orders
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: |-
+        Retrieves a paginated list of orders.
+        Can be filtered by customer ID and order status.
+    post:
+      summary: Create new order
+      tags:
+        - Orders
+      operationId: create-order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '../models/Order.v1.yaml'
+        required: true
+      responses:
+        '201':
+          $ref: '#/components/responses/OrderResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: Creates a new order for a customer.
+  '/orders/{orderId}':
+    parameters:
+      - $ref: '#/components/parameters/orderId'
+    get:
+      summary: Get order by ID
+      tags:
+        - Orders
+      operationId: get-order-by-id
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: Retrieves detailed information about a specific order.
+    patch:
+      summary: Update order status
+      tags:
+        - Orders
+      operationId: update-order-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - PENDING
+                    - PROCESSING
+                    - SHIPPED
+                    - DELIVERED
+                    - CANCELLED
+              required:
+                - status
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      description: Updates the status of an existing order.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  parameters:
+    productId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier of the product
+    customerId:
+      name: customerId
+      in: query
+      schema:
+        type: string
+      description: Unique identifier of the customer
+    orderId:
+      name: orderId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier of the order
+    category:
+      name: category
+      in: query
+      schema:
+        type: string
+        enum:
+          - ELECTRONICS
+          - CLOTHING
+          - BOOKS
+          - HOME
+          - SPORTS
+      description: Filter products by category
+    minPrice:
+      name: minPrice
+      in: query
+      schema:
+        type: number
+        format: double
+      description: Minimum price filter
+    maxPrice:
+      name: maxPrice
+      in: query
+      schema:
+        type: number
+        format: double
+      description: Maximum price filter
+    status:
+      name: status
+      in: query
+      schema:
+        type: string
+        enum:
+          - PENDING
+          - PROCESSING
+          - SHIPPED
+          - DELIVERED
+          - CANCELLED
+      description: Filter orders by status
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 20
+        minimum: 1
+        maximum: 100
+      description: Maximum number of items to return
+    offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+      description: Number of items to skip
+  responses:
+    ProductResponse:
+      description: Single product response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../models/Common/CommonPayload/CommonPayload.v1.yaml
+              - type: object
+                properties:
+                  data:
+                    $ref: ../models/Product.v1.yaml
+    ProductListResponse:
+      description: List of products response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../models/Common/CommonPayload/CommonPayload.v1.yaml
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ../models/Product.v1.yaml
+    CustomerResponse:
+      description: Single customer response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../models/Common/CommonPayload/CommonPayload.v1.yaml
+              - type: object
+                properties:
+                  data:
+                    $ref: ../models/Customer.v1.yaml
+    CustomerListResponse:
+      description: List of customers response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../models/Common/CommonPayload/CommonPayload.v1.yaml
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ../models/Customer.v1.yaml
+    OrderResponse:
+      description: Single order response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../models/Common/CommonPayload/CommonPayload.v1.yaml
+              - type: object
+                properties:
+                  data:
+                    $ref: ../models/Order.v1.yaml
+    OrderListResponse:
+      description: List of orders response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../models/Common/CommonPayload/CommonPayload.v1.yaml
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ../models/Order.v1.yaml
+    BadRequestResponse:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: ../models/Common/Errors.v1.yaml
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: ../models/Common/Errors.v1.yaml
+    NotFoundResponse:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: ../models/Common/Errors.v1.yaml
+    InternalServerErrorResponse:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: ../models/Common/Errors.v1.yaml

@@ -1,0 +1,11 @@
+title: Errors
+type: object
+description: A collection of errors
+properties:
+  errors:
+    type: array
+    description: List of errors that occurred
+    items:
+      $ref: ./Error.v1.yaml
+required:
+  - errors

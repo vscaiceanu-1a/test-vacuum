@@ -1,0 +1,29 @@
+title: Warning
+type: object
+description: |-
+  Represents a warning message in the API response.
+  Used to communicate non-critical issues or informational messages.
+properties:
+  code:
+    type: string
+    description: Warning code identifier
+    example: "DEPRECATED_FIELD"
+  title:
+    type: string
+    description: Short warning title
+    example: "Field Deprecated"
+  detail:
+    type: string
+    description: Detailed warning message
+    example: "The field 'oldField' is deprecated and will be removed in v2.0"
+  source:
+    type: object
+    description: Source of the warning
+    properties:
+      pointer:
+        type: string
+        description: JSON pointer to the field causing the warning
+        example: "/data/attributes/oldField"
+required:
+  - code
+  - title

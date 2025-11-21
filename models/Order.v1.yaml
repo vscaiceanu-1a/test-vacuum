@@ -1,0 +1,105 @@
+title: Order
+x-tags:
+  - Order
+  - online-shop
+type: object
+description: |-
+  Represents a customer order in the online shop.
+  Contains order details including items, pricing, and status.
+properties:
+  id:
+    type: string
+    description: Unique identifier for the order
+    example: "order-99999"
+  customerId:
+    type: string
+    description: Reference to the customer who placed the order
+    example: "cust-67890"
+  orderDate:
+    type: string
+    format: date-time
+    description: Date and time when order was placed
+    example: "2024-03-20T14:30:00Z"
+  status:
+    type: string
+    description: Current status of the order
+    enum:
+      - PENDING
+      - PROCESSING
+      - SHIPPED
+      - DELIVERED
+      - CANCELLED
+    example: "PROCESSING"
+  items:
+    type: array
+    description: List of items in the order
+    items:
+      type: object
+      properties:
+        productId:
+          type: string
+          description: Reference to the product
+          example: "prod-12345"
+        quantity:
+          type: integer
+          description: Quantity ordered
+          example: 2
+        unitPrice:
+          type: number
+          format: double
+          description: Price per unit at time of order
+          example: 99.99
+      required:
+        - productId
+        - quantity
+        - unitPrice
+  subtotal:
+    type: number
+    format: double
+    description: Order subtotal before tax and shipping
+    example: 199.98
+  tax:
+    type: number
+    format: double
+    description: Tax amount
+    example: 16.00
+  shipping:
+    type: number
+    format: double
+    description: Shipping cost
+    example: 9.99
+  total:
+    type: number
+    format: double
+    description: Total order amount
+    example: 225.97
+  shippingAddress:
+    type: object
+    description: Delivery address for the order
+    properties:
+      street:
+        type: string
+        example: "123 Main St"
+      city:
+        type: string
+        example: "Springfield"
+      state:
+        type: string
+        example: "IL"
+      zipCode:
+        type: string
+        example: "62701"
+      country:
+        type: string
+        example: "USA"
+  trackingNumber:
+    type: string
+    description: Shipping tracking number
+    example: "TRK-123456789"
+required:
+  - id
+  - customerId
+  - orderDate
+  - status
+  - items
+  - total

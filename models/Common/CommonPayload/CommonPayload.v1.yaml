@@ -1,0 +1,27 @@
+title: CommonPayload
+type: object
+description: |-
+  Common payload structure for API responses.
+  Contains optional warnings and metadata sections.
+properties:
+  warnings:
+    type: array
+    description: List of warnings encountered during processing
+    items:
+      $ref: '../Warning.v1.yaml'
+  meta:
+    type: object
+    description: Metadata about the response
+    properties:
+      totalCount:
+        type: integer
+        description: Total number of items available
+        example: 100
+      page:
+        type: integer
+        description: Current page number
+        example: 1
+      pageSize:
+        type: integer
+        description: Number of items per page
+        example: 20

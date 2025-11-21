@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AmadeusITGroup/otter/refs/heads/feature/openapi-solution/packages/@ama-openapi/core/schemas/manifest.schema.json
+
+name: '@shop/api'
+version: 1.0.0
+description: Online Shop API Specification
+main: bundle/specification.yaml
+apis:
+  - ./apis/OnlineShopApi.v1.yaml

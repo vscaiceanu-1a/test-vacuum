@@ -1,0 +1,9 @@
+# Generic online shop API ruleset
+extends:
+  # - node_modules/amadeus-lib/lib-ruleset.yaml
+  - amadeus-lib/lib-ruleset.yaml
+  
+rules:
+  oas-schema-check: warn
+  contact-properties: warn
+  info-description: warn

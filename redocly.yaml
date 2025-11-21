@@ -1,0 +1,10 @@
+extends:
+  - recommended
+
+plugins:
+  - '@ama-openapi/redocly-plugin'
+
+apis:
+  shop@v1:
+    root: apis/OnlineShopApi.v1.yaml
+    output: bundle/specification.yaml

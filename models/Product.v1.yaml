@@ -1,0 +1,65 @@
+title: Product
+x-tags:
+  - Product
+  - online-shop
+type: object
+description: |-
+  Represents a product available for purchase in the online shop.
+  Contains basic product information including pricing and availability.
+properties:
+  id:
+    type: string
+    description: Unique identifier for the product
+    example: "prod-12345"
+  name:
+    type: string
+    description: Product name
+    example: "Wireless Headphones"
+  description:
+    type: string
+    description: Detailed description of the product
+    example: "High-quality wireless headphones with noise cancellation"
+  price:
+    type: number
+    format: double
+    description: Product price in USD
+    example: 99.99
+  category:
+    type: string
+    description: Product category
+    enum:
+      - ELECTRONICS
+      - CLOTHING
+      - BOOKS
+      - HOME
+      - SPORTS
+    example: "ELECTRONICS"
+  stock:
+    type: integer
+    description: Available quantity in stock
+    example: 50
+  manufacturer:
+    type: string
+    description: Product manufacturer name
+    example: "TechCorp"
+    deprecated: true
+    x-deprecated-message: "Use 'brand' field instead"
+  rating:
+    type: number
+    format: double
+    minimum: 0
+    maximum: 5
+    description: Average customer rating
+    example: 4.5
+  tags:
+    type: array
+    items:
+      type: string
+    description: Product tags for search and filtering
+    example: ["wireless", "audio", "bluetooth"]
+required:
+  - id
+  - name
+  - price
+  - category
+  - stock

@@ -1,0 +1,63 @@
+title: Customer
+x-tags:
+  - Customer
+  - online-shop
+type: object
+description: |-
+  Represents a customer in the online shop system.
+  Contains customer profile information and contact details.
+properties:
+  id:
+    type: string
+    description: Unique identifier for the customer
+    example: "cust-67890"
+  email:
+    type: string
+    format: email
+    description: Customer email address
+    example: "john.doe@example.com"
+  firstName:
+    type: string
+    description: Customer first name
+    example: "John"
+  lastName:
+    type: string
+    description: Customer last name
+    example: "Doe"
+  phoneNumber:
+    type: string
+    description: Customer phone number
+    example: "+1-555-0123"
+  address:
+    type: object
+    description: Customer shipping address
+    properties:
+      street:
+        type: string
+        example: "123 Main St"
+      city:
+        type: string
+        example: "Springfield"
+      state:
+        type: string
+        example: "IL"
+      zipCode:
+        type: string
+        example: "62701"
+      country:
+        type: string
+        example: "USA"
+  memberSince:
+    type: string
+    format: date-time
+    description: Date when customer joined
+    example: "2023-01-15T10:30:00Z"
+  loyaltyPoints:
+    type: integer
+    description: Accumulated loyalty points
+    example: 1250
+required:
+  - id
+  - email
+  - firstName
+  - lastName

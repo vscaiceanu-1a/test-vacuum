@@ -127,7 +127,7 @@ paths:
         - Orders
       operationId: list-orders
       parameters:
-        - $ref: '#/components/parameters/customerId'
+        - $ref: '#/components/parameters/customerIdFilter'
         - $ref: '#/components/parameters/status'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -233,7 +233,8 @@ components:
       description: Unique identifier of the product
     customerId:
       name: customerId
-      in: query
+      in: path
+      required: true
       schema:
         type: string
       description: Unique identifier of the customer
@@ -244,6 +245,12 @@ components:
       schema:
         type: string
       description: Unique identifier of the order
+    customerIdFilter:
+      name: customerId
+      in: query
+      schema:
+        type: string
+      description: Filter orders by customer ID
     category:
       name: category
       in: query

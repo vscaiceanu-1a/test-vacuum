@@ -1,4 +1,4 @@
-# @opcat/touchpoint
+# @sdk/example
 
 This package exposes [OpenApi specification](https://swagger.io/specification/) which can be used to use to generate an SDK or be referred in another specification.
 

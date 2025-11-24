@@ -1,8 +1,8 @@
-import { Oas3Rule } from '@redocly/openapi-core';
+import { Oas3Rule, Oas3Schema } from '@redocly/openapi-core';
 
 export const noPropertiesWithSchemaComposition: Oas3Rule = () => {
   return {
-    Schema(schema, { report, location }) {
+    Schema(schema: any, { report, location }: { report: any; location: any }) {
       const hasComposition = schema.allOf || schema.oneOf || schema.anyOf || schema.not;
       const hasProperties = schema.properties;
 

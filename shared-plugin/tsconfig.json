@@ -7,9 +7,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "rootDir": "./plugins"
+    "rootDir": "./src",
+    "declaration": true
   },
   "include": [
-    "plugins/**/*"
+    "src/**/*"
   ]
 }

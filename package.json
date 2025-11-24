@@ -21,14 +21,14 @@
     "lint": "npm run build && redocly lint bundle/specification.yaml",
     "lint:source": "redocly lint models/**/*.yaml apis/**/*.yaml",
     "build": "redocly bundle",
-    "build:plugin": "tsc",
     "retrieve-externals": "ama-openapi install",
     "watch:retrieve-externals": "ama-openapi watch",
     "postinstall": "ama-openapi install",
     "dashboard": "vacuum dashboard bundle/specification.yaml"
   },
   "dependencies": {
-    "@ama-openapi/cli": "~0.0.0-placeholder.10"
+    "@ama-openapi/cli": "~0.0.0-placeholder.10",
+    "@my-org/redocly-rules": "file:shared-plugin"
   },
   "devDependencies": {
     "@ama-openapi/redocly-plugin": "~0.0.0-placeholder.10",

@@ -1,12 +1,10 @@
 extends:
   - recommended
+  - redocly-rules/recommended
 
 plugins:
   - '@ama-openapi/redocly-plugin'
-  - './dist/index.js'
-
-rules:
-  custom-rules/no-properties-with-schema-composition: error
+  - '@my-org/redocly-rules'
 
 apis:
   shop@v1:

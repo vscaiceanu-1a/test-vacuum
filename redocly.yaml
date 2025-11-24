@@ -3,6 +3,10 @@ extends:
 
 plugins:
   - '@ama-openapi/redocly-plugin'
+  - './dist/index.js'
+
+rules:
+  custom-rules/no-properties-with-schema-composition: error
 
 apis:
   shop@v1:

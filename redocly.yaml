@@ -1,10 +1,14 @@
 extends:
   - recommended
   - redocly-rules/recommended
+  - redocly-rules/strict
 
 plugins:
   - '@ama-openapi/redocly-plugin'
   - '@my-org/redocly-rules'
+
+rules:
+  redocly-rules/no-foo-property: error
 
 apis:
   shop@v1:

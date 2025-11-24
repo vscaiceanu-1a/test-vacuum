@@ -23,7 +23,7 @@
     "build": "redocly bundle",
     "retrieve-externals": "ama-openapi install",
     "watch:retrieve-externals": "ama-openapi watch",
-    "postinstall": "ama-openapi install",
+    "postinstall": "ama-openapi install && cd shared-plugin && npm install && npm run build",
     "dashboard": "vacuum dashboard bundle/specification.yaml"
   },
   "dependencies": {

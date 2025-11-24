@@ -26,13 +26,63 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run OpenAPI lint with vacuum
-        if: github.event_name == 'pull_request'
-        uses: pb33f/vacuum-action@v2
-        with:
-          openapi_path: "bundle/specification.yaml"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Run Vacuum
+      - name: Lint (Push to Main)
         if: github.event_name != 'pull_request'
-        run: npm run lint -- --pipeline-output
+        run: npx redocly lint bundle/specification.yaml --format=github-actions
+
+      - name: Lint HEAD (PR)
+        if: github.event_name == 'pull_request'
+        id: lint_head
+        continue-on-error: true
+        run: npx redocly lint bundle/specification.yaml --format=json > head_lint.json
+
+      - name: Checkout Base
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+          path: base_checkout
+
+      - name: Install Dependencies (Base)
+        if: github.event_name == 'pull_request'
+        run: |
+          cd base_checkout
+          npm ci
+          npm run build
+
+      - name: Lint Base (PR)
+        if: github.event_name == 'pull_request'
+        id: lint_base
+        continue-on-error: true
+        run: |
+          cd base_checkout
+          npx redocly lint bundle/specification.yaml --format=json > ../base_lint.json
+
+      - name: Compare Lint Results
+        if: github.event_name == 'pull_request'
+        id: compare_lint
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const { execSync } = require('child_process');
+            
+            // Run the comparison script and capture output
+            try {
+              const output = execSync('node scripts/compare-lint.js head_lint.json base_lint.json').toString();
+              console.log(output);
+              
+              // If there are new violations (indicated by the header in output), post a comment
+              if (output.includes("### 🚨 New Lint Violations Detected")) {
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: output
+                });
+                core.setFailed("New lint violations detected.");
+              }
+            } catch (error) {
+              console.error("Error comparing lint results:", error);
+              core.setFailed("Failed to compare lint results.");
+            }

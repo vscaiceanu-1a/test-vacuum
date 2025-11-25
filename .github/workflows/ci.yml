@@ -27,8 +27,7 @@ jobs:
         run: npm run build
 
       - name: Lint (Push to Main)
-        if: github.event_name != 'pull_request'
-        run: npx redocly lint bundle/specification.yaml --format=github-actions
+        run: npx redocly lint --format=github-actions
 
       - name: Lint HEAD (PR)
         if: github.event_name == 'pull_request'

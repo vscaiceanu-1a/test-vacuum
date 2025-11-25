@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    CompositionViolation:
+      description: Violates no-properties-with-schema-composition
+      allOf:
+        - type: object
+      properties:
+        bar: # Adding bar to avoid require-bar-property violation
+          type: string
+
+    FooViolation:
+      description: Violates no-foo-property
+      type: object
+      properties:
+        foo:
+          type: string
+        bar: # Adding bar to avoid require-bar-property violation
+          type: string
+
+    BarViolation:
+      description: Violates require-bar-property
+      type: object
+      properties:
+        baz:
+          type: string

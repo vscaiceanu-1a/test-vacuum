@@ -18,21 +18,24 @@
   ],
   "readme": "README.md",
   "scripts": {
-    "lint": "vacuum lint bundle/specification.yaml -d",
-    "lint:source": "vacuum lint models/**/*.yaml apis/**/*.yaml",
+    "lint": "npm run build && redocly lint bundle/specification.yaml",
+    "lint:source": "redocly lint models/**/*.yaml apis/**/*.yaml",
     "build": "redocly bundle",
     "retrieve-externals": "ama-openapi install",
     "watch:retrieve-externals": "ama-openapi watch",
-    "postinstall": "ama-openapi install",
+    "postinstall": "ama-openapi install && cd shared-plugin && npm install && npm run build",
     "dashboard": "vacuum dashboard bundle/specification.yaml"
   },
   "dependencies": {
-    "@ama-openapi/cli": "~0.0.0-placeholder.10"
+    "@ama-openapi/cli": "~0.0.0-placeholder.10",
+    "@my-org/redocly-rules": "file:shared-plugin"
   },
   "devDependencies": {
     "@ama-openapi/redocly-plugin": "~0.0.0-placeholder.10",
-    "@quobix/vacuum": "^0.20.2",
-    "@redocly/cli": "~2.11.0"
+    "@redocly/cli": "~2.11.0",
+    "@redocly/openapi-core": "^2.11.1",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
   },
   "exports": {
     "./package.json": "./package.json",
